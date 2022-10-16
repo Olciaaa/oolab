@@ -8,12 +8,12 @@ enum Direction {
     WRONG;
 
     public static Direction fromCode(String argument){
-        switch(argument) {
-            case "f" -> {return FORWARD;}
-            case "b" -> {return BACKWARD;}
-            case "l" -> {return LEFT;}
-            case "r" -> {return RIGHT;}
-            default -> {return WRONG;}
-        }
+        return switch(argument) {
+            case "f" -> FORWARD;
+            case "b" -> BACKWARD;
+            case "l" -> LEFT;
+            case "r" -> RIGHT;
+            default -> WRONG;
+        };
     }
 }
