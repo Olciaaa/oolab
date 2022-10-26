@@ -8,6 +8,7 @@ public class Vector2dTest {
 
     @Test
     void testShouldKnowIfEquals(){
+        //setup  itter ? down
         Vector2d vectorGood = new Vector2d(2, 4);
         Vector2d vectorNotGood = new Vector2d(1, 4);
 
