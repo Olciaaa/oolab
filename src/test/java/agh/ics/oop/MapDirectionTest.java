@@ -1,7 +1,7 @@
 package agh.ics.oop;
+import org.junit.jupiter.api.Test;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MapDirectionTest {
     @Test
@@ -19,10 +19,10 @@ public class MapDirectionTest {
         MapDirection resultForWest = west.next();
 
         // then:
-        Assert.assertEquals(MapDirection.EAST, resultForNorth);
-        Assert.assertEquals(MapDirection.WEST, resultForSouth);
-        Assert.assertEquals(MapDirection.SOUTH, resultForEast);
-        Assert.assertEquals(MapDirection.NORTH, resultForWest);
+        assertEquals(MapDirection.EAST, resultForNorth);
+        assertEquals(MapDirection.WEST, resultForSouth);
+        assertEquals(MapDirection.SOUTH, resultForEast);
+        assertEquals(MapDirection.NORTH, resultForWest);
     }
 
     @Test
@@ -40,9 +40,9 @@ public class MapDirectionTest {
         MapDirection resultForWest = west.previous();
 
         // then:
-        Assert.assertEquals(MapDirection.WEST, resultForNorth);
-        Assert.assertEquals(MapDirection.EAST, resultForSouth);
-        Assert.assertEquals(MapDirection.NORTH, resultForEast);
-        Assert.assertEquals(MapDirection.SOUTH, resultForWest);
+        assertEquals(MapDirection.WEST, resultForNorth);
+        assertEquals(MapDirection.EAST, resultForSouth);
+        assertEquals(MapDirection.NORTH, resultForEast);
+        assertEquals(MapDirection.SOUTH, resultForWest);
     }
 }

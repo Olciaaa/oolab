@@ -8,10 +8,10 @@ class AnimalTest
     @Test
     void testAnimalIsAt()
     {
-        Animal animal1 = new Animal();
-        Animal animal2 = new Animal();
-        Animal animal3 = new Animal();
-        Animal animal4 = new Animal();
+        Animal animal1 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal2 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal3 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal4 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
 
         assertTrue(animal1.isAt(new Vector2d(2, 2)));
         assertFalse(animal2.isAt(new Vector2d(2, 3)));
@@ -21,7 +21,7 @@ class AnimalTest
 
     @Test
     public void testCorrectDirectionWhenTurnRight() {
-        Animal animal = new Animal();
+        Animal animal = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
 
         assertEquals(animal.getDirection(), MapDirection.NORTH);
 
@@ -40,7 +40,7 @@ class AnimalTest
 
     @Test
     public void testCorrectDirectionWhenTurnLeft() {
-        Animal animal = new Animal();
+        Animal animal = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
 
         assertEquals(animal.getDirection(), MapDirection.NORTH);
 
@@ -59,10 +59,10 @@ class AnimalTest
 
     @Test
     public void testAnimalPositionChange() {
-        Animal animal1 = new Animal();
-        Animal animal2 = new Animal();
-        Animal animal3 = new Animal();
-        Animal animal4 = new Animal();
+        Animal animal1 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal2 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal3 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal animal4 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
 
         animal1.move(MoveDirection.FORWARD);
         animal2.move(MoveDirection.BACKWARD);
@@ -81,7 +81,7 @@ class AnimalTest
 
     @Test
     public void testAnimalBehaviourWhileMoving(){
-        Animal animal = new Animal();
+        Animal animal = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
         assertEquals(animal.getPosition(), new Vector2d(2, 2));
 
         animal.move(MoveDirection.FORWARD);
@@ -112,65 +112,62 @@ class AnimalTest
 
     @Test
     public void testGoOutsideTheMap() {
-        Animal animal = new Animal();
+        Animal animal1 = new Animal(new RectangularMap(4, 4), new Vector2d(0, 0));
+        assertEquals(animal1.getPosition(), new Vector2d(0, 0));
 
-        animal.setPosition(new Vector2d(0, 0));
-        animal.move(MoveDirection.BACKWARD);
-        assertEquals(animal.getPosition(), new Vector2d(0, 0));
+        Animal animal2 = new Animal(new RectangularMap(4, 4), new Vector2d(4, 0));
+        animal2.move(MoveDirection.BACKWARD);
+        assertEquals(animal2.getPosition(), new Vector2d(4, 0));
 
-        animal.setPosition(new Vector2d(4, 0));
-        animal.move(MoveDirection.BACKWARD);
-        assertEquals(animal.getPosition(), new Vector2d(4, 0));
+        Animal animal3 = new Animal(new RectangularMap(4, 4), new Vector2d(0, 4));
+        animal3.move(MoveDirection.FORWARD);
+        assertEquals(animal3.getPosition(), new Vector2d(0, 4));
 
-        animal.setPosition(new Vector2d(0, 4));
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(0, 4));
+        Animal animal4 = new Animal(new RectangularMap(4, 4), new Vector2d(4, 4));
+        animal4.move(MoveDirection.FORWARD);
+        assertEquals(animal4.getPosition(), new Vector2d(4, 4));
 
-        animal.setPosition(new Vector2d(4, 4));
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(4, 4));
+        Animal animal5 = new Animal(new RectangularMap(4, 4), new Vector2d(3, 4));
+        animal5.move(MoveDirection.FORWARD);
+        assertEquals(animal5.getPosition(), new Vector2d(3, 4));
 
-        animal.setPosition(new Vector2d(3, 4));
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(3, 4));
+        Animal animal6 = new Animal(new RectangularMap(4, 4), new Vector2d(1, 0));
+        animal6.move(MoveDirection.BACKWARD);
+        assertEquals(animal6.getPosition(), new Vector2d(1, 0));
 
-        animal.setPosition(new Vector2d(1, 0));
-        animal.move(MoveDirection.BACKWARD);
-        assertEquals(animal.getPosition(), new Vector2d(1, 0));
+        //automatic rotation of Animal is NORTH
+        Animal animal7 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 4));
+        animal7.move(MoveDirection.FORWARD);
+        assertEquals(animal7.getPosition(), new Vector2d(2, 4));
 
-        animal.setPosition(new Vector2d(2, 4));
-        animal.setDirection(MapDirection.NORTH);
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(2, 4));
+        Animal animal8 = new Animal(new RectangularMap(4, 4), new Vector2d(3, 0));
+        animal8.move(MoveDirection.RIGHT).move(MoveDirection.RIGHT);
+        animal8.move(MoveDirection.FORWARD);
+        assertEquals(animal8.getPosition(), new Vector2d(3, 0));
 
-        animal.setPosition(new Vector2d(3, 0));
-        animal.setDirection(MapDirection.SOUTH);
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(3, 0));
+        Animal animal9 = new Animal(new RectangularMap(4, 4), new Vector2d(4, 2));
+        animal9.move(MoveDirection.RIGHT);
+        animal9.move(MoveDirection.FORWARD);
+        assertEquals(animal9.getPosition(), new Vector2d(4, 2));
 
-        animal.setPosition(new Vector2d(4, 2));
-        animal.setDirection(MapDirection.EAST);
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(4, 2));
-
-        animal.setPosition(new Vector2d(0, 2));
-        animal.setDirection(MapDirection.WEST);
-        animal.move(MoveDirection.FORWARD);
-        assertEquals(animal.getPosition(), new Vector2d(0, 2));
+        Animal animal10 = new Animal(new RectangularMap(4, 4), new Vector2d(0, 2));
+        animal10.move(MoveDirection.LEFT);
+        animal10.move(MoveDirection.FORWARD);
+        assertEquals(animal10.getPosition(), new Vector2d(0, 2));
     }
 
     @Test
     void testToString()
     {
-        Animal testAnimal1 = new Animal();
-        Animal testAnimal2 = new Animal();
+        Animal testAnimal1 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
+        Animal testAnimal2 = new Animal(new RectangularMap(4, 4), new Vector2d(2, 2));
 
         testAnimal2.move(MoveDirection.FORWARD);
         testAnimal2.move(MoveDirection.FORWARD);
         testAnimal2.move(MoveDirection.RIGHT);
         testAnimal2.move(MoveDirection.BACKWARD);
 
-        assertEquals("orientacja: Północ, pozycja: (2, 2)", testAnimal1.toString());
-        assertEquals("orientacja: Wschód, pozycja: (1, 4)", testAnimal2.toString());
+        assertEquals("^", testAnimal1.toString());
+        assertEquals(">", testAnimal2.toString());
     }
 }

@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class World {
-    public static void main(String[] args){
-        Animal animal1 = new Animal();
+    public static void main(String[] args) throws Exception{
+        /*Animal animal1 = new Animal();
         System.out.println(animal1);
         animal1.move(MoveDirection.RIGHT);
         animal1.move(MoveDirection.FORWARD);
@@ -27,8 +27,13 @@ public class World {
         System.out.println(position1);
         Vector2d position2 = new Vector2d(-2,1);
         System.out.println(position2);
-        System.out.println(position1.add(position2));
+        System.out.println(position1.add(position2));*/
 
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
     }
 
     private static void run(MoveDirection[] directions) {

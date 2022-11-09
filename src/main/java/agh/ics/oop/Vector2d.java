@@ -25,25 +25,11 @@ public class Vector2d {
     }
 
     public Vector2d upperRight(Vector2d other){
-        if(other.x == x || other.y == y){
-            return null;
-        }
-
-        if(follows(other)){
-            return this;
-        }
-        return other;
+        return new Vector2d(Math.max(this.x, other.x), Math.max(this.y, other.y));
     }
 
     public Vector2d lowerLeft(Vector2d other){
-        if(other.x == x || other.y == y){
-            return null;
-        }
-
-        if(precedes(other)){
-            return this;
-        }
-        return other;
+        return new Vector2d(Math.min(this.x, other.x), Math.min(this.y, other.y));
     }
 
     public Vector2d add(Vector2d other){
@@ -73,4 +59,6 @@ public class Vector2d {
     public Vector2d opposite(){
         return new Vector2d(-x, -y);
     }
+
+
 }

@@ -1,19 +1,18 @@
 package agh.ics.oop;
 
 public class Animal {
-    private MapDirection direction;
+    private MapDirection direction = MapDirection.NORTH;
     private Vector2d position;
-    private final Vector2d zeroPoint = new Vector2d(0, 0);
-    private final Vector2d lastPoint = new Vector2d(4, 4);
+    private final IWorldMap map;
 
-    public Animal(){
-        direction = MapDirection.NORTH;
-        position = new Vector2d(2, 2);
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        position = initialPosition;
+        this.map = map;
     }
 
     @Override
     public String toString(){
-        return "orientacja: " + direction + ", pozycja: " + position;
+        return direction.toString();
     }
 
     public boolean isAt(Vector2d position){
@@ -25,37 +24,27 @@ public class Animal {
             case RIGHT -> this.direction = this.direction.next();
             case LEFT -> this.direction = this.direction.previous();
             case FORWARD -> {
-                Vector2d newPosition = position.add(this.direction.toUnitVector());
-                if(newPosition.precedes(lastPoint) && newPosition.follows(zeroPoint)){
-                        position = newPosition;
-                }
+                moveForward(position.add(this.direction.toUnitVector()));
             }
             case BACKWARD -> {
-                Vector2d newPosition = position.subtract(this.direction.toUnitVector());
-                if(newPosition.precedes(lastPoint) && newPosition.follows(zeroPoint)){
-                    position = newPosition;
-                }
+                moveForward(position.add(this.direction.toUnitVector().opposite()));
             }
         }
 
         return this;
     }
 
+    private void moveForward(Vector2d newPosition){
+        if(map.canMoveTo(newPosition)){
+            position = newPosition;
+        }
+    }
+
     public MapDirection getDirection() {
         return direction;
     }
 
-    public void setDirection(MapDirection direction) {
-        this.direction = direction;
-    }
-
     public Vector2d getPosition() {
         return position;
-    }
-
-    public void setPosition(Vector2d position) {
-        if(position.precedes(lastPoint) && position.follows(zeroPoint)){
-            this.position = position;
-        }
     }
 }

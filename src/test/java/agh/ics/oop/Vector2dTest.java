@@ -1,7 +1,7 @@
 package agh.ics.oop;
+import org.junit.jupiter.api.Test;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2dTest {
     Vector2d vector = new Vector2d(2, 4);
@@ -15,15 +15,15 @@ public class Vector2dTest {
         boolean good = vector.equals(vectorGood);
         boolean wrong = vector.equals(vectorNotGood);
 
-        Assert.assertTrue(good);
-        Assert.assertFalse(wrong);
+        assertTrue(good);
+        assertFalse(wrong);
     }
 
     @Test
     void testShouldParseToString(){
         String stringVector = vector.toString();
 
-        Assert.assertEquals("(2, 4)", stringVector);
+        assertEquals("(2, 4)", stringVector);
     }
 
     @Test
@@ -34,8 +34,8 @@ public class Vector2dTest {
         boolean good = vector.precedes(vectorToPreceed);
         boolean wrong = vector.precedes(vectorToNotPreceed);
 
-        Assert.assertTrue(good);
-        Assert.assertFalse(wrong);
+        assertTrue(good);
+        assertFalse(wrong);
     }
 
     @Test
@@ -46,8 +46,8 @@ public class Vector2dTest {
         boolean good = vector.follows(vectorToFollow);
         boolean wrong = vector.follows(vectorToNotFollow);
 
-        Assert.assertTrue(good);
-        Assert.assertFalse(wrong);
+        assertTrue(good);
+        assertFalse(wrong);
     }
 
     @Test
@@ -60,9 +60,9 @@ public class Vector2dTest {
         Vector2d wrong = vector.upperRight(vectorNotUpperRight);
         Vector2d noVectorIsUp = vector.upperRight(vectorOnLine);
 
-        Assert.assertEquals(vectorUpperRight, good);
-        Assert.assertNotEquals(vectorNotUpperRight, wrong);
-        Assert.assertNull(noVectorIsUp);
+        assertEquals(vectorUpperRight, good);
+        assertNotEquals(vectorNotUpperRight, wrong);
+        assertNull(noVectorIsUp);
 
     }
 
@@ -76,9 +76,9 @@ public class Vector2dTest {
         Vector2d wrong = vector.lowerLeft(vectorNotLowerLeft);
         Vector2d noVectorIsLower = vector.lowerLeft(vectorOnLine);
 
-        Assert.assertEquals(vectorLowerLeft, good);
-        Assert.assertNotEquals(vectorNotLowerLeft, wrong);
-        Assert.assertNull(noVectorIsLower);
+        assertEquals(vectorLowerLeft, good);
+        assertNotEquals(vectorNotLowerLeft, wrong);
+        assertNull(noVectorIsLower);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class Vector2dTest {
 
         Vector2d addedVectors = vector.add(vectorToAdd);
 
-        Assert.assertEquals(new Vector2d(1, 14), addedVectors);
+        assertEquals(new Vector2d(1, 14), addedVectors);
     }
 
     @Test
@@ -96,13 +96,13 @@ public class Vector2dTest {
 
         Vector2d subtractedVectors = vector.subtract(vectorToAdd);
 
-        Assert.assertEquals(new Vector2d(3, -6), subtractedVectors);
+        assertEquals(new Vector2d(3, -6), subtractedVectors);
     }
 
     @Test
     void testShouldKnowOppositeVector(){
         Vector2d oppositeVector = vector.opposite();
 
-        Assert.assertEquals(new Vector2d(-2, -4), oppositeVector);
+        assertEquals(new Vector2d(-2, -4), oppositeVector);
     }
 }
