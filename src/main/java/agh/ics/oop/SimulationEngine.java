@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class SimulationEngine implements IEngine{
+public class SimulationEngine implements IEngine {
     private MoveDirection[] moves;
     private ArrayList<Animal> animals = new ArrayList<>();
     private IWorldMap map;
     private JFrame f;
     private JTextArea textField;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] animalsPositions){
+    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] animalsPositions) {
         this.moves = moves;
 
         for (Vector2d animalPosition:animalsPositions) {
@@ -24,7 +24,7 @@ public class SimulationEngine implements IEngine{
         }
         this.map = map;
         System.out.println(map.toString());
-        setupMovementSimulation();
+        //setupMovementSimulation();
     }
 
     @Override
@@ -40,25 +40,26 @@ public class SimulationEngine implements IEngine{
 
             animalIdx += 1;
 
-            Thread.sleep(400);
-            textField.setText(map.toString());
+            //Thread.sleep(300);
+            //textField.setText(map.toString());
         }
     }
 
     private void setupMovementSimulation() {
         f = new JFrame();
-        f.setSize(400, 400);
+        f.setSize(500, 500);
         f.setLayout(null);
         f.setVisible(true);
 
         textField = new JTextArea(map.toString());
-        textField.setBounds(80, 70, 240, 260);
+
+        textField.setBounds(10, 10, 10 + 50 * (map.getLastPoint().x() - map.getZeroPoint().x()), 10 + 50 * (map.getLastPoint().y() - map.getZeroPoint().y()));
         Font font = new Font("Helvetica", Font.BOLD, 20);
         textField.setFont(font);
         f.add(textField);
     }
 
-    public ArrayList<Animal> getAnimals(){
+    public ArrayList<Animal> getAnimals() {
         return animals;
     }
 }

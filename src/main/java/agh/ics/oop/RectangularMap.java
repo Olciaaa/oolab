@@ -2,11 +2,10 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 
-public class RectangularMap implements IWorldMap{
+public class RectangularMap extends AbstractWorldMap {
     private final Vector2d zeroPoint;
     private final Vector2d lastPoint;
-    //private ArrayList<ArrayList<Animal>> animalsPositions = new ArrayList<ArrayList<Animal>>();
-    private ArrayList<Animal> animalsOnMap = new ArrayList<>();
+    private ArrayList<IWorldElement> elementsOnMap = new ArrayList<>();
 
     public RectangularMap(int width, int height) {
         this.zeroPoint = new Vector2d(0, 0);
@@ -15,41 +14,16 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return !isOccupied(position) && position.precedes(lastPoint) && position.follows(zeroPoint);
+        return !(objectAt(position) instanceof Animal) && position.precedes(lastPoint) && position.follows(zeroPoint);
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if(canMoveTo(animal.getPosition())){
-            animalsOnMap.add(animal);
-            return true;
-        }
-        return false;
+    public Vector2d getZeroPoint() {
+        return zeroPoint;
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
-    }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal animal:animalsOnMap
-             ) {
-            if(animal.getPosition().equals(position)){
-                return animal;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public String toString(){
-        return new MapVisualiser(this).draw(zeroPoint, lastPoint);
-    }
-
-    public ArrayList<Animal> getAnimalsOnMap(){
-        return animalsOnMap;
+    public Vector2d getLastPoint() {
+        return lastPoint;
     }
 }

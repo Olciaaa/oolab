@@ -1,12 +1,14 @@
 package agh.ics.oop;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class RectangularMapTest {
+public class GrassFieldTest {
     @Test
     public void placeTest() {
-        RectangularMap map = new RectangularMap(6, 8);
+        GrassField map = new GrassField(20);
         Animal animal1 = new Animal(map, new Vector2d(4, 4));
         Animal animal2 = new Animal(map, new Vector2d(2, 4));
         Animal animal3 = new Animal(map, new Vector2d(4, 4));
@@ -20,12 +22,12 @@ public class RectangularMapTest {
         assertTrue(map.getElementsOnMap().contains(animal1));
         assertTrue(map.getElementsOnMap().contains(animal2));
         assertFalse(map.getElementsOnMap().contains(animal3));
-        assertFalse(map.getElementsOnMap().contains(animal4));
+        assertTrue(map.getElementsOnMap().contains(animal4));
     }
 
     @Test
     public void isOccupiedTest() {
-        RectangularMap map = new RectangularMap(4, 4);
+        GrassField map = new GrassField(0);
         Animal animal = new Animal(map, new Vector2d(3, 4));
         map.place(animal);
 
@@ -35,7 +37,7 @@ public class RectangularMapTest {
 
     @Test
     public void canMoveToTest() {
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(10);
         Animal animal = new Animal(map, new Vector2d(3, 4));
         map.place(animal);
 
@@ -45,11 +47,11 @@ public class RectangularMapTest {
 
     @Test
     public void objectAtTest() {
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField map = new GrassField(10);
         Animal animal = new Animal(map, new Vector2d(3, 4));
         map.place(animal);
 
         assertEquals(animal, map.objectAt(animal.getPosition()));
-        assertNull(map.objectAt(new Vector2d(2, 2)));
+        assertNotEquals(animal, map.objectAt(new Vector2d(2, 2)));
     }
 }

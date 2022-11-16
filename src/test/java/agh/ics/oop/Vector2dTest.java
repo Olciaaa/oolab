@@ -1,14 +1,20 @@
 package agh.ics.oop;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2dTest {
-    Vector2d vector = new Vector2d(2, 4);
+    private Vector2d vector;
+
+    @BeforeEach
+    void init(){
+        vector = new Vector2d(2, 4);
+    }
 
     @Test
     void testShouldKnowIfEquals(){
-        //setup  itter ? down
         Vector2d vectorGood = new Vector2d(2, 4);
         Vector2d vectorNotGood = new Vector2d(1, 4);
 
@@ -52,33 +58,23 @@ public class Vector2dTest {
 
     @Test
     void testShouldKnowWhichVectorIsUpperRight(){
-        Vector2d vectorUpperRight = new Vector2d(3, 9);
-        Vector2d vectorNotUpperRight = new Vector2d(1, 3);
-        Vector2d vectorOnLine = new Vector2d(1, 4);
+        Vector2d vector1 = new Vector2d(1, 6);
 
-        Vector2d good = vector.upperRight(vectorUpperRight);
-        Vector2d wrong = vector.upperRight(vectorNotUpperRight);
-        Vector2d noVectorIsUp = vector.upperRight(vectorOnLine);
+        Vector2d upperRight = vector.upperRight(vector1);
 
-        assertEquals(vectorUpperRight, good);
-        assertNotEquals(vectorNotUpperRight, wrong);
-        assertNull(noVectorIsUp);
+        assertEquals(upperRight, new Vector2d(2, 6));
+        assertNotEquals(upperRight, new Vector2d(1, 6));
 
     }
 
     @Test
     void testShouldKnowWhichVectorIsLowerLeft(){
-        Vector2d vectorLowerLeft = new Vector2d(-1, 3);
-        Vector2d vectorNotLowerLeft = new Vector2d(5, 20);
-        Vector2d vectorOnLine = new Vector2d(-5, 4);
+        Vector2d vector1 = new Vector2d(1, 6);
 
-        Vector2d good = vector.lowerLeft(vectorLowerLeft);
-        Vector2d wrong = vector.lowerLeft(vectorNotLowerLeft);
-        Vector2d noVectorIsLower = vector.lowerLeft(vectorOnLine);
+        Vector2d lowerLeft = vector.lowerLeft(vector1);
 
-        assertEquals(vectorLowerLeft, good);
-        assertNotEquals(vectorNotLowerLeft, wrong);
-        assertNull(noVectorIsLower);
+        assertEquals(lowerLeft, new Vector2d(1, 4));
+        assertNotEquals(lowerLeft, new Vector2d(1, 6));
     }
 
     @Test
