@@ -1,4 +1,5 @@
 package agh.ics.oop;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,10 +18,10 @@ public class RectangularMapTest {
         map.place(animal3);
         map.place(animal4);
 
-        assertTrue(map.getElementsOnMap().contains(animal1));
-        assertTrue(map.getElementsOnMap().contains(animal2));
-        assertFalse(map.getElementsOnMap().contains(animal3));
-        assertFalse(map.getElementsOnMap().contains(animal4));
+        assertTrue(map.getElementsOnMap().containsValue(animal1));
+        assertTrue(map.getElementsOnMap().containsValue(animal2));
+        assertFalse(map.getElementsOnMap().containsValue(animal3));
+        assertFalse(map.getElementsOnMap().containsValue(animal4));
     }
 
     @Test

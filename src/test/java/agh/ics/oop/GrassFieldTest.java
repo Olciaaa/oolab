@@ -19,10 +19,10 @@ public class GrassFieldTest {
         map.place(animal3);
         map.place(animal4);
 
-        assertTrue(map.getElementsOnMap().contains(animal1));
-        assertTrue(map.getElementsOnMap().contains(animal2));
-        assertFalse(map.getElementsOnMap().contains(animal3));
-        assertTrue(map.getElementsOnMap().contains(animal4));
+        assertTrue(map.getElementsOnMap().containsValue(animal1));
+        assertTrue(map.getElementsOnMap().containsValue(animal2));
+        assertFalse(map.getElementsOnMap().containsValue(animal3));
+        assertTrue(map.getElementsOnMap().containsValue(animal4));
     }
 
     @Test

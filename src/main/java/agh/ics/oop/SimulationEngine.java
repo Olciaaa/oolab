@@ -20,7 +20,12 @@ public class SimulationEngine implements IEngine {
 
             if(map.place(animal)){
                 animals.add(animal);
+                animal.addObserver((IPositionChangeObserver) map);
             }
+            else{
+                throw new IllegalArgumentException(animal.position + " is not legal move specification.");
+            }
+            //mógłby być ten wyjątek w funkcji place, ale ona jest booleanem (według interfejsu z zajęć wcześniej) to już ją tak zostawiłam w spokoju. A chyba nieładnie byłoby nie zwracać w niej false jak jest źle i zwracać true jak jest super :/
         }
         this.map = map;
         System.out.println(map.toString());

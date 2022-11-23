@@ -46,7 +46,4 @@ public interface IWorldMap {
     Vector2d getZeroPoint();
 
     Vector2d getLastPoint();
-
-    //to też do dodatkowego, żeby wiedzieć z pozycji mapy, że zwierzak się ruszył i z pozycji zwierzaka czy zjadł trawę. Póki co zostawiam bool, może się przyda info czy zjadł, najwyżej zmienię na void
-    boolean grassWasAte(Vector2d newPosition);
 }

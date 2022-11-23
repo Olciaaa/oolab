@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class RectangularMap extends AbstractWorldMap {
     private final Vector2d zeroPoint;
     private final Vector2d lastPoint;
-    private ArrayList<IWorldElement> elementsOnMap = new ArrayList<>();
 
     public RectangularMap(int width, int height) {
         this.zeroPoint = new Vector2d(0, 0);
