@@ -8,22 +8,22 @@ public class Animal extends AbstractWorldElement {
     private final IWorldMap map;
     private ArrayList<IPositionChangeObserver> observersList = new ArrayList<IPositionChangeObserver>();
 
-    public Animal(IWorldMap map, Vector2d initialPosition){
+    public Animal(IWorldMap map, Vector2d initialPosition) {
         super(initialPosition);
         this.map = map;
     }
 
-    void addObserver(IPositionChangeObserver observer){
+    void addObserver(IPositionChangeObserver observer) {
         observersList.add(observer);
     }
 
-    void removeObserver(IPositionChangeObserver observer){
+    void removeObserver(IPositionChangeObserver observer) {
         observersList.remove(observer);
     }
 
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         for(IPositionChangeObserver observer : this.observersList) {
-            observer.positionChanged(oldPosition, newPosition);
+            observer.positionChanged(new PositionChangeEvent(oldPosition, newPosition));
         }
     }
 

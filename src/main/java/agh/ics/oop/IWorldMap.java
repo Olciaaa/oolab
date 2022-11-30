@@ -6,7 +6,7 @@ package agh.ics.oop;
  *
  * @author apohllo
  */
-public interface IWorldMap {
+public interface IWorldMap extends IPositionChangeObserver {
     /**
      * Indicate if any object can move to the given position.
      *
@@ -41,8 +41,6 @@ public interface IWorldMap {
      */
     Object objectAt(Vector2d position);
 
-
-    //to do zadania dodatkowego, żeby odpowiednio rozszerzać pole do rysowania przy przesuwaniu się i powiększaniu mapy
     Vector2d getZeroPoint();
 
     Vector2d getLastPoint();

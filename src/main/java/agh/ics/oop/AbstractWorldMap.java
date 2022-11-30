@@ -2,16 +2,16 @@ package agh.ics.oop;
 
 import java.util.*;
 
-public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
+public abstract class AbstractWorldMap implements IWorldMap {
     protected Map<Vector2d, IWorldElement> elementsOnMap = new HashMap<>();
     public abstract Vector2d getZeroPoint();
     public abstract Vector2d getLastPoint();
 
     @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
-        IWorldElement element = elementsOnMap.get(oldPosition);
-        elementsOnMap.remove(oldPosition);
-        elementsOnMap.put(newPosition, element);
+    public void positionChanged(PositionChangeEvent event) {
+        IWorldElement element = elementsOnMap.get(event.oldPosition());
+        elementsOnMap.remove(event.oldPosition());
+        elementsOnMap.put(event.newPosition(), element);
     }
 
     @Override
@@ -21,7 +21,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public boolean place(Animal animal){
+    public boolean place(Animal animal) {
         if(canMoveTo(animal.getPosition())){
             elementsOnMap.put(animal.getPosition(), animal);
             return true;
@@ -47,7 +47,9 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return new MapVisualiser(this).draw(getZeroPoint(), getLastPoint());
     }
+
+
 }

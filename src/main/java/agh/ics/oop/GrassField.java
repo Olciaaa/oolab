@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class GrassField extends AbstractWorldMap {
     private final int numberOfGrassOnMap;
+    private MapBoundary mapBoundary = new MapBoundary();
 
     public GrassField(int numberOfGrassOnMap) {
         this.numberOfGrassOnMap = numberOfGrassOnMap;
@@ -15,7 +16,9 @@ public class GrassField extends AbstractWorldMap {
     private void initGrassOnMap() {
         for (int i = 0; i < numberOfGrassOnMap; i++) {
             Vector2d randomPlace = randomPlaceOfGrass();
-            elementsOnMap.put(randomPlace, new Grass(randomPlace));
+            Grass grass = new Grass(randomPlace);
+            elementsOnMap.put(randomPlace, grass);
+            mapBoundary.putNewElement(grass.position);
         }
     }
 
@@ -31,40 +34,29 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d getZeroPoint() {
-        Vector2d point = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-
-        for (Vector2d key:elementsOnMap.keySet()
-             ) {
-            point = point.lowerLeft(key);
-        }
-
-        return point;
+        return mapBoundary.leftBottomCorner();
     }
 
     @Override
     public Vector2d getLastPoint() {
-        Vector2d point = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-
-        for (Vector2d key:elementsOnMap.keySet()
-        ) {
-            point = point.upperRight(key);
-        }
-
-        return point;
+        return mapBoundary.rightTopCorner();
     }
 
     @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
-        moveGrassIfIs(newPosition);
+    public void positionChanged(PositionChangeEvent event){
+        moveGrassIfIs(event.newPosition());
 
-        IWorldElement element = elementsOnMap.get(oldPosition);
-        elementsOnMap.remove(oldPosition);
-        elementsOnMap.put(newPosition, element);
+        IWorldElement element = elementsOnMap.get(event.oldPosition());
+        elementsOnMap.remove(event.oldPosition());
+        elementsOnMap.put(event.newPosition(), element);
+
+        mapBoundary.positionChanged(event);
     }
 
     @Override
     public boolean place(Animal animal) {
         moveGrassIfIs(animal.position);
+        mapBoundary.putNewElement(animal.position);
 
         if(canMoveTo(animal.getPosition())){
             elementsOnMap.put(animal.getPosition(), animal);
@@ -76,6 +68,8 @@ public class GrassField extends AbstractWorldMap {
     public void moveGrassIfIs(Vector2d animalPosition) {
         if(objectAt(animalPosition) instanceof Grass grass){
             Vector2d newPosition = randomPlaceOfGrass();
+            mapBoundary.positionChanged(new PositionChangeEvent(grass.position, newPosition));
+
             elementsOnMap.remove(grass.position);
             grass.position = newPosition;
             elementsOnMap.put(newPosition, grass);
