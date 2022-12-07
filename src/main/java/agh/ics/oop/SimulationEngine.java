@@ -1,15 +1,28 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
+
 import java.util.ArrayList;
 
-public class SimulationEngine implements IEngine {
+public class SimulationEngine implements IEngine, Runnable {
     private MoveDirection[] moves;
-    private ArrayList<Animal> animals = new ArrayList<>();
-    private IWorldMap map;
+    private final ArrayList<Animal> animals = new ArrayList<>();
+    private final IWorldMap map;
+    private final App application;
+    private final int moveDelay;
 
-    public SimulationEngine(MoveDirection[] moves, IWorldMap map, Vector2d[] animalsPositions) {
+    public SimulationEngine(IWorldMap map, Vector2d[] animalsPositions, App application, int moveDelay) {
+        this.map = map;
+        this.application = application;
+        this.moveDelay = moveDelay;
+        addAnimalsToMap(animalsPositions);
+    }
+
+    public void setMoves(MoveDirection[] moves) {
         this.moves = moves;
+    }
 
+    private void addAnimalsToMap(Vector2d[] animalsPositions){
         for (Vector2d animalPosition:animalsPositions) {
             Animal animal = new Animal(map, animalPosition);
 
@@ -21,8 +34,6 @@ public class SimulationEngine implements IEngine {
                 throw new IllegalArgumentException(animal.position + " is not legal move specification.");
             }
         }
-        this.map = map;
-        System.out.println(map.toString());
     }
 
     @Override
@@ -30,10 +41,14 @@ public class SimulationEngine implements IEngine {
         int animalIdx = 0;
 
         for (MoveDirection move:moves) {
-            animals.get(animalIdx % animals.size()).move(move);
+            try {
+                Thread.sleep(moveDelay);
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
 
-            System.out.println("move" + move);
-            System.out.println(map.toString());
+            animals.get(animalIdx % animals.size()).move(move);
+            application.redrawMap();
 
             animalIdx += 1;
         }

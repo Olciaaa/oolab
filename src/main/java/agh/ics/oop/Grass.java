@@ -11,4 +11,8 @@ public class Grass extends AbstractWorldElement {
         return "*";
     }
 
+    @Override
+    public String getPicture() {
+        return "src/main/resources/grass.png";
+    }
 }

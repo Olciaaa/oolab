@@ -3,46 +3,81 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.geometry.HPos;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.RowConstraints;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
-public class App extends Application{
+public class App extends Application {
     final int width = 30;
     final int height = 30;
-    AbstractWorldMap map;
-    GridPane grid = new GridPane();
+    private final GridPane grid = new GridPane();
+    private AbstractWorldMap map;
+    private SimulationEngine engine;
+    private Button button;
+    private TextField textField;
+    private Stage stage;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
-    public void init() throws Exception {
+    public void init(){
         try {
-            String[] args = getParameters().getRaw().toArray(new String[0]);
-            MoveDirection[] directions = OptionsParser.parse(args);
             map = new GrassField(10);
             Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
-            IEngine engine = new SimulationEngine(directions, map, positions);
-            engine.run();
+            button = new Button("Start");
+            textField = new TextField();
+            int moveDelay = 300;
+            engine = new SimulationEngine(map, positions, this, moveDelay);
         } catch (IllegalArgumentException exception) {
-            exception.printStackTrace();
+            System.out.println(exception.getMessage());
         }
     }
 
     @Override
-    public void start(Stage primaryStage){
-        primaryStage.setTitle("Zwierzaki");
+    public void start(Stage primaryStage) throws Exception {
+        init();
+        stage = primaryStage;
+        stage.setTitle("Zwierzaki");
+        Vector2d lowerCorner = map.getZeroPoint();
+        Vector2d upperCorner = map.getLastPoint();
+
+        int width = (upperCorner.x() - lowerCorner.x() + 2) * this.width;
+        int height = (upperCorner.y() - lowerCorner.y() + 3) * this.height;
+
+        HBox input = new HBox(button, textField);
+        VBox verticalBox = new VBox(grid, input);
+        verticalBox.setAlignment(Pos.CENTER);
+        input.setAlignment(Pos.CENTER);
+
+        button.setOnAction(event -> {
+            MoveDirection[] directions = OptionsParser.parse(textField.getText().split(" "));
+            engine.setMoves(directions);
+            Thread thread = new Thread(engine);
+            thread.start();
+        });
         drawMap();
-        Scene scene = new Scene(grid, 400, 400);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+
+        Scene scene = new Scene(verticalBox, width, height);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    public void drawMap() {
+    public void drawMap() throws FileNotFoundException {
+        grid.setGridLinesVisible(false);
+        grid.getChildren().clear();
+        grid.getColumnConstraints().clear();
+        grid.getRowConstraints().clear();
         grid.setGridLinesVisible(true);
 
         Map<Vector2d, IWorldElement> elementsOnMap = map.getElementsOnMap();
@@ -71,10 +106,21 @@ public class App extends Application{
         }
 
         for (IWorldElement el : elementsOnMap.values()) {
-            Label element = new Label(el.toString());
+            VBox element = new GuiElementBox(el).getVerticalBox();
             Vector2d position = el.getPosition();
             grid.add(element, position.x() - leftBottomCorner.x() + 1, rightTopCorner.y() - position.y() + 1);
             GridPane.setHalignment(element, HPos.CENTER);
         }
+        stage.show();
+    }
+
+    public void redrawMap() {
+        Platform.runLater(() -> {
+            try {
+                drawMap();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

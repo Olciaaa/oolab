@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 public class World {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Application.launch(App.class, args);
     }
 }

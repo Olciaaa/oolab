@@ -3,7 +3,6 @@ package agh.ics.oop;
 import java.util.ArrayList;
 
 public class Animal extends AbstractWorldElement {
-
     private MapDirection direction = MapDirection.NORTH;
     private final IWorldMap map;
     private ArrayList<IPositionChangeObserver> observersList = new ArrayList<IPositionChangeObserver>();
@@ -60,5 +59,15 @@ public class Animal extends AbstractWorldElement {
 
     public MapDirection getDirection() {
         return direction;
+    }
+
+    @Override
+    public String getPicture() {
+        return "src/main/resources/" + switch (direction){
+            case EAST -> "right.png";
+            case WEST -> "left.png";
+            case NORTH -> "up.png";
+            case SOUTH -> "down.png";
+        };
     }
 }
